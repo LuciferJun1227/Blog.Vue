@@ -1,6 +1,6 @@
 
 
-<img src="https://github.com/anjoy8/Blog.Vue/blob/master/public/logovue.png" width="350"  />
+<img src="./public/logovue.png" width="350"  />
 
 
 老张：这只是 .netCore+Vue 的前端部分，后端API部分，请看我的另一个工程 https://github.com/anjoy8/Blog.Core
@@ -9,7 +9,7 @@
 博客园：https://www.cnblogs.com/laozhang-is-phi/
 
  简书：https://www.jianshu.com/u/94102b59cc2a
- 
+
  环境：
 node.js、Npm/Cnpm、vue-cli、vue-router、vuex等
 
@@ -29,7 +29,25 @@ npm run serve
 ```
 然后你就可以直接访问 http://localhost:6688
 
+
+### 请注意：
+
+
+
 ```
+如果你想换一个端口，可以直接修改根目录下的 vue.config.js 文件
+
+  devServer: {
+    port: 6688, // 当前vue项目的端口号
+    https: false,
+
+而且也要代理下后端的接口地址，如果你使用 proxy 来实现跨域的话（如果用 CORS 跨域，这里就不用配置了）：
+
+    proxy: {
+      // 配置多个代理
+      "/api": {
+        target: "http://localhost:8081",//这里改成你自己的后端api端口地址，记得每次修改，都需要重新build
+
 ```
 
 ### 如果要部署，先执行bulid

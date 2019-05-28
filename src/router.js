@@ -5,6 +5,10 @@ import Home from "./views/Home.vue";
 import FormVuex from "./views/FormVuex.vue";
 import Content from "./views/content";
 import Login from "./views/Login";
+import LoginCallbackView from "./views/LoginCallbackView";
+import Editor from "./views/Editor";
+
+// import applicationUserManager from "./Auth/applicationusermanager";
 
 Vue.use(Router);
 
@@ -16,6 +20,11 @@ const router = new Router({
       path: "/",
       name: "home",
       component: Home
+    },
+    {
+      path: "/Editor",
+      name: "Editor",
+      component: Editor
     },
     {
       path: "/Vuex",
@@ -36,21 +45,29 @@ const router = new Router({
       component: Login
     },
     {
+      path: "/callback",
+      name: "LoginCallbackView",
+      component: LoginCallbackView
+    },
+    {
       path: "/about",
       name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/Form.vue")
+    },
+    {
+      path: "/home2",
+      name: "home2",
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./views/Home2.vue")
     }
   ]
 });
 
-var storeTemp=store;
+var storeTemp = store;
 router.beforeEach((to, from, next) => {
   if (!storeTemp.state.token) {
-    storeTemp.commit("saveToken",window.localStorage.Token)
+    storeTemp.commit("saveToken", window.localStorage.Token);
   }
   if (to.meta.requireAuth) {
     // 判断该路由是否需要登录权限
@@ -58,6 +75,10 @@ router.beforeEach((to, from, next) => {
       // 通过vuex state获取当前的token是否存在
       next();
     } else {
+      //这里使用Id4授权认证，用Jwt，请删之，并把下边的跳转login 打开；
+      // applicationUserManager.login();
+
+      //这里使用Jwt登录，如果不用Id4授权认证，这里打开它；
       next({
         path: "/login",
         query: { redirect: to.fullPath } // 将跳转的路由path作为参数，登录成功后跳转到该路由
